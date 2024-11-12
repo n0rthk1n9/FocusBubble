@@ -9,7 +9,7 @@ import SwiftUI
 
 @Observable
 class TimerObject {
-    let timerColor: Color
+    var timerColor: Color
     var length: Int
     
     init(timerColor: Color = .red, length: Int = 1200) {
