@@ -8,27 +8,35 @@
 import SwiftUI
 
 struct MainView: View {
+    @State var showStatisticsView: Bool = false
+    @State var showSettingsView: Bool = false
+    
     var body: some View {
         NavigationStack {
             Text("MainView")
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
-                            // open Statistics View
+                            showStatisticsView.toggle()
                         } label: {
                             Image(systemName: "chart.bar")
                         }
                     }
                     ToolbarItem(placement: .topBarLeading) {
                         Button {
-                            // open settings view
+                            showSettingsView.toggle()
                         } label: {
                             Image(systemName: "gear")
                         }
                     }
                 }
+                .sheet(isPresented: $showStatisticsView) {
+                    StatisticsView()
+                }
+                .sheet(isPresented: $showSettingsView) {
+                    SettingsView()
+                }
         }
-
     }
 }
 
