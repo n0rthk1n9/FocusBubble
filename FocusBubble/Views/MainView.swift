@@ -15,7 +15,7 @@ struct MainView: View {
         NavigationStack {
             VStack {
                 Spacer()
-                Text("00:00")
+                TimerView(timerObject: TimerObject(timerColor: .red, length: 122), controls: true)
                 Spacer()
                 Button {
                     // start timer
