@@ -13,29 +13,40 @@ struct MainView: View {
     
     var body: some View {
         NavigationStack {
-            Text("MainView")
-                .toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button {
-                            showStatisticsView.toggle()
-                        } label: {
-                            Image(systemName: "chart.bar")
-                        }
+            VStack {
+                Spacer()
+                Text("00:00")
+                Spacer()
+                Button {
+                    // start timer
+                } label: {
+                    Label("Start", systemImage: "play")
+                        .font(.largeTitle)
+                }
+                .buttonStyle(.borderedProminent)
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showStatisticsView.toggle()
+                    } label: {
+                        Image(systemName: "chart.bar")
                     }
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button {
-                            showSettingsView.toggle()
-                        } label: {
-                            Image(systemName: "gear")
-                        }
+                }
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        showSettingsView.toggle()
+                    } label: {
+                        Image(systemName: "gear")
                     }
                 }
-                .sheet(isPresented: $showStatisticsView) {
-                    StatisticsView()
-                }
-                .sheet(isPresented: $showSettingsView) {
-                    SettingsView()
-                }
+            }
+            .sheet(isPresented: $showStatisticsView) {
+                StatisticsView()
+            }
+            .sheet(isPresented: $showSettingsView) {
+                SettingsView()
+            }
         }
     }
 }
