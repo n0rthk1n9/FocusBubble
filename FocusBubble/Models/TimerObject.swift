@@ -12,7 +12,7 @@ class TimerObject {
     let timerColor: Color
     let length: Int
     
-    init(timerColor: Color, length: Int) {
+    init(timerColor: Color = .red, length: Int = 120) {
         self.timerColor = timerColor
         self.length = length
     }

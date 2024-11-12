@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TimerView: View {
-    let timerObject: TimerObject
+    @Environment(TimerObject.self) var timerObject
     let controls: Bool
     
     var body: some View {
@@ -67,5 +67,6 @@ struct ControlButtonStyle: ViewModifier {
 }
 
 #Preview {
-    TimerView(timerObject: TimerObject(timerColor: .red, length: 20), controls: true)
+    TimerView(controls: true)
+        .environment(TimerObject())
 }

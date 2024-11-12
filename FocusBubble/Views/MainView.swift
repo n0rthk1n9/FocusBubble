@@ -14,16 +14,7 @@ struct MainView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                Spacer()
-                TimerView(timerObject: TimerObject(timerColor: .red, length: 122), controls: true)
-                Spacer()
-                Button {
-                    // start timer
-                } label: {
-                    Label("Start", systemImage: "play")
-                        .font(.largeTitle)
-                }
-                .buttonStyle(.borderedProminent)
+                TimerView(controls: true)
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -53,4 +44,5 @@ struct MainView: View {
 
 #Preview {
     MainView()
+        .environment(TimerObject())
 }

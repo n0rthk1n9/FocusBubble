@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct FocusBubbleApp: App {
+    @State private var timerObject = TimerObject()
+    
     var body: some Scene {
         WindowGroup {
             MainView()
+                .environment(timerObject)
         }
     }
 }
