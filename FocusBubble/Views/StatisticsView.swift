@@ -74,16 +74,18 @@ struct StatisticsView: View {
             .padding()
             .background(
                 RoundedRectangle(cornerRadius: 15)
-                    .fill(Color(.systemGray6))
+                    .fill(Color.white)
+                    .shadow(color: Color.gray.opacity(0.3), radius: 5, x: 0, y: 5)
             )
             .padding(.horizontal)
 
+            // Weekly Activity Box
             VStack(alignment: .leading, spacing: 10) {
                 Text("Weekly Activity")
                     .font(.title2)
                     .fontWeight(.semibold)
 
-                HStack(spacing: 20) {
+                HStack(spacing: 30) {
                     ForEach(["Mon", "Tue", "Wed", "Thu"], id: \.self) { day in
                         VStack {
                             ZStack {
@@ -102,10 +104,17 @@ struct StatisticsView: View {
                     }
                 }
             }
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 15)
+                    .fill(Color.white)
+                    .shadow(color: Color.gray.opacity(0.3), radius: 5, x: 0, y: 5)
+            )
             .padding(.horizontal)
-            
+
             Spacer()
         }
+        .frame(maxWidth: .infinity) // Assicurati che il contenitore principale prenda tutta la larghezza disponibile
     }
 }
 
