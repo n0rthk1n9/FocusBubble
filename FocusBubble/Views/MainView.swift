@@ -9,7 +9,26 @@ import SwiftUI
 
 struct MainView: View {
     var body: some View {
-        Text("MainView")
+        NavigationStack {
+            Text("MainView")
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            // open Statistics View
+                        } label: {
+                            Image(systemName: "chart.bar")
+                        }
+                    }
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button {
+                            // open settings view
+                        } label: {
+                            Image(systemName: "gear")
+                        }
+                    }
+                }
+        }
+
     }
 }
 
