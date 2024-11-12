@@ -9,9 +9,9 @@ import SwiftUI
 
 struct SettingsView: View {
     @Environment(TimerObject.self) var timerObject
-    
+
     let timeOptions = ["15:00": 900, "20:00 (Default)": 1200, "25:00": 1500]
-    let colorOptions = ["Red": Color.red, "Blue": Color.blue, "Green": Color.green]
+    let colorOptions: [Color] = [.red, .blue, .green]
 
     var body: some View {
         NavigationStack {
@@ -27,7 +27,8 @@ struct SettingsView: View {
                 }
                 Section("Color") {
                     @Bindable var timerObject = timerObject
-                    ColorPicker("Select a color", selection: $timerObject.timerColor)
+                    ColorPicker("Select a custom color", selection: $timerObject.timerColor)
+                    CustomColorPickerView(selectedColor: $timerObject.timerColor)
                 }
             }
             .navigationTitle("Settings")
