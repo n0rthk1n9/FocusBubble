@@ -13,7 +13,7 @@ class StatisticsModel: ObservableObject {
     @Published var months: [String]
     @Published var dailyHours: [String: Double]
     
-    init() {          //default values
+    init() {
         self.hoursPerMonth = [10, 15, 20, 18, 25, 30, 40, 15, 12, 20, 28, 30]
         self.bubblesPoppedPerMonth = [5, 6, 7, 4, 5, 9, 6, 5, 4, 7, 8, 6]
         self.months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
