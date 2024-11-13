@@ -11,10 +11,12 @@ import SwiftUI
 class TimerObject {
     var timerColor: Color
     var length: Int
+    var breakLength: Int
     
-    init(timerColor: Color = .red, length: Int = 1200) {
+    init(timerColor: Color = .red, length: Int = 1200, breakLength: Int = 600) {
         self.timerColor = timerColor
         self.length = length
+        self.breakLength = breakLength
     }
     
     var timer: Timer? = nil
