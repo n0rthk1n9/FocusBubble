@@ -13,7 +13,13 @@ struct CustomColorPickerView: View {
         .purple,
         .red,
         .orange,
-        
+        .blue,
+        .green,
+        .yellow,
+        .pink,
+        .brown,
+        .indigo,
+        .mint,
     ]
 
     var body: some View {
@@ -29,15 +35,16 @@ struct CustomColorPickerView: View {
                         } label: {
                             Circle()
                                 .fill(color)
-                                .frame(width: 20, height: 20)
+                                .frame(width: 25, height: 25)
                                 .overlay(
                                     Circle()
                                         .stroke(selectedColor.opacity(0.5), lineWidth: selectedColor == color ? 5 : 0)
                                 )
                         }
+                        .padding(.vertical, 5)
                     }
                 }
-                .padding([.leading, .vertical])
+                .padding(.horizontal)
             }
             .frame(maxWidth: .infinity, alignment: .trailing)
         }
@@ -46,5 +53,5 @@ struct CustomColorPickerView: View {
 }
 
 #Preview {
-    CustomColorPickerView(selectedColor: .constant(.red))
+    CustomColorPickerView(selectedColor: .constant(.purple))
 }
