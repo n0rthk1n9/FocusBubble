@@ -15,6 +15,7 @@ struct FocusBubbleApp: App {
         WindowGroup {
             MainView()
                 .environment(timerObject)
+                .tint(timerObject.timerColor)
         }
     }
 }

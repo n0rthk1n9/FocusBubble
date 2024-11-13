@@ -39,6 +39,7 @@ struct MainView: View {
             .sheet(isPresented: $showSettingsView) {
                 SettingsView()
             }
+            .navigationTitle("Focus Bubble")
         }
     }
 }

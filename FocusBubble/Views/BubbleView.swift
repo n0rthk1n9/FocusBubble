@@ -38,7 +38,7 @@ struct BubbleView: View {
     var body: some View {
         Image(imageName)
             .resizable()
-            .frame(width: 200, height: 200)
+            .frame(width: 250, height: 250)
             .offset(x: xAmplitude, y: yAmplitude)
             .animation(.easeInOut(duration: 1.5), value: imageName)
             .onAppear {
