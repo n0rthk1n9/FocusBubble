@@ -14,6 +14,7 @@ struct MainView: View {
     var body: some View {
         NavigationStack {
             VStack {
+                BubbleView()
                 TimerView(controls: true)
             }
             .toolbar {
