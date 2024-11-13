@@ -71,7 +71,6 @@ struct StatisticsView: View {
             }
             .navigationTitle("Your Analytics")
             .onAppear {
-                
                 model.updateData(hours: [12, 14, 16, 10, 9, 8, 10, 13, 15, 18, 19, 25], bubbles: [1, 3, 2, 1, 2, 1, 0, 1, 0, 0, 1, 1])
             }
         }
@@ -81,3 +80,4 @@ struct StatisticsView: View {
 #Preview {
     StatisticsView()
 }
+

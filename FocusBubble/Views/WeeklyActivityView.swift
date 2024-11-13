@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct WeeklyActivityView: View {
-    var dailyHours: [String: Double] // Dictionary per memorizzare le ore giornaliere
+    var dailyHours: [String: Double] // Dizionario per memorizzare le ore giornaliere
+
+    // Lista fissa con i giorni della settimana in ordine
+    private let weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -20,7 +23,7 @@ struct WeeklyActivityView: View {
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 25) {
-                    ForEach(dailyHours.keys.sorted(), id: \.self) { day in
+                    ForEach(weekDays, id: \.self) { day in
                         VStack {
                             ZStack(alignment: .center) {
                                 Circle()
