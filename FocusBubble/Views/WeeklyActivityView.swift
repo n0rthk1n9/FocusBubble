@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct WeeklyActivityView: View {
-    @Binding var dailyHours: [String: Double]  
+    @Binding var dailyHours: [String: Double]
 
-  
     private let weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 
     var body: some View {
@@ -58,6 +57,6 @@ struct WeeklyActivityView: View {
 }
 
 #Preview {
-    WeeklyActivityView(dailyHours: .constant(["Mon": 1, "Tue": 2, "Wed": 1.5, "Thu": 3, "Fri": 2, "Sat": 1, "Sun": 2.5]))
+    WeeklyActivityView(
+        dailyHours: .constant(["Mon": 1, "Tue": 2, "Wed": 1.5, "Thu": 3, "Fri": 2, "Sat": 1, "Sun": 2.5]))
 }
-

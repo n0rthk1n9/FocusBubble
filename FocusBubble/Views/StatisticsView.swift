@@ -24,7 +24,11 @@ struct StatisticsView: View {
                 VStack {
                     ZStack {
                         Circle()
-                            .fill(LinearGradient(gradient: Gradient(colors: [Color.purple.opacity(0.5), Color.blue.opacity(0.5)]), startPoint: .topLeading, endPoint: .bottomTrailing))
+                            .fill(
+                                LinearGradient(
+                                    gradient: Gradient(colors: [Color.purple.opacity(0.5), Color.blue.opacity(0.5)]),
+                                    startPoint: .topLeading, endPoint: .bottomTrailing)
+                            )
                             .frame(width: 120, height: 120)
                     }
                     Text("4.5h")
@@ -64,13 +68,11 @@ struct StatisticsView: View {
                 )
                 .padding(.horizontal)
 
- 
                 WeeklyActivityView(dailyHours: $model.dailyHours)
                     .padding(.horizontal)
             }
             .navigationTitle("Your Analytics")
             .onAppear {
-                
                 //UpdatingFunction (the following parameters are just for testing)
                 model.updateData(
                     hours: [12, 14, 16, 10, 9, 8, 10, 13, 15, 18, 19, 25],
