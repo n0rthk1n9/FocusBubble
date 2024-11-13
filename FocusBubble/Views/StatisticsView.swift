@@ -92,7 +92,6 @@ struct StatisticsView: View {
                                     }
                                     Text(day)
                                         .font(.headline)
-                                        .padding(.top, 5)
                                 }
                             }
                         }
@@ -110,7 +109,10 @@ struct StatisticsView: View {
             .navigationTitle("Your Analytics")
             .onAppear {
                 
-                model.updateData(newHoursPerMonth: [12, 14, 17, 22, 18, 13, 21, 19, 15, 20, 10, 23])
+                // Esempio di aggiornamento dei dati
+                model.updateData(hours: [12, 14, 16, 10, 9, 8, 10, 13, 15, 18, 19, 25], bubbles: [1, 3, 2, 1, 2, 1, 0, 1, 0, 0, 1, 1])
+
+                
             }
         }
     }

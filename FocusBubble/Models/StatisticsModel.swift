@@ -6,23 +6,21 @@
 //
 
 import SwiftUI
-import Combine
 
 class StatisticsModel: ObservableObject {
-    @Published var months: [String]
     @Published var hoursPerMonth: [Int]
-
+    @Published var bubblesPoppedPerMonth: [Int]
+    @Published var months: [String]
+    
     init() {
-        // default values
+        self.hoursPerMonth = [10, 15, 20, 18, 25, 30, 40, 15, 12, 20, 28, 30] // example data for hours
+        self.bubblesPoppedPerMonth = [5, 6, 7, 4, 5, 9, 6, 5, 4, 7, 8, 6] // example data for bubbles popped
         self.months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-        self.hoursPerMonth = [15, 18, 12, 20, 10, 16, 21, 14, 22, 11, 9, 19]
     }
-
-    func updateData(newHoursPerMonth: [Int]) {
-        guard newHoursPerMonth.count == months.count else {
-            print("Errore: il numero di valori non corrisponde ai mesi.")
-            return
-        }
-        self.hoursPerMonth = newHoursPerMonth
+    
+    func updateData(hours: [Int], bubbles: [Int]) {
+        self.hoursPerMonth = hours
+        self.bubblesPoppedPerMonth = bubbles
     }
 }
+
