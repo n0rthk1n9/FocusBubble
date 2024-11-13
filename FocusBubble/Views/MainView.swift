@@ -14,6 +14,7 @@ struct MainView: View {
     var body: some View {
         NavigationStack {
             VStack {
+                BubbleView()
                 TimerView(controls: true)
             }
             .toolbar {
@@ -38,6 +39,7 @@ struct MainView: View {
             .sheet(isPresented: $showSettingsView) {
                 SettingsView()
             }
+            .navigationTitle("Focus Bubble")
         }
     }
 }
