@@ -15,13 +15,13 @@ class TimerObject {
     init(timerColor: Color = .red, length: Int = 30) {
         self.timerColor = timerColor
         self.length = length
-        self.baseRemainingTime = length  // Initially, baseRemainingTime is the full length
+        self.baseRemainingTime = length
     }
     
     var timer: Timer? = nil
     var timeElapsed: Int = 0
     var isTimerRunning: Bool = false
-    private var baseRemainingTime: Int  // Base remaining time when the timer was last stopped
+    private var baseRemainingTime: Int
 
     var remainingTime: Int {
         length - timeElapsed
@@ -32,17 +32,14 @@ class TimerObject {
     }
     
     var playButtonDisabled: Bool {
-        // Disable play button if the timer has run out or is already running
         return remainingTime == 0 || isTimerRunning
     }
     
     var pauseButtonDisabled: Bool {
-        // Disable pause button if the timer is not running or has run out
         return !isTimerRunning || remainingTime == 0
     }
     
     var resetButtonDisabled: Bool {
-        // Enable reset button only if the timer has run out or is paused (with elapsed time)
         return remainingTime == length || isTimerRunning
     }
     
@@ -52,7 +49,7 @@ class TimerObject {
             if self.remainingTime > 0 {
                 self.timeElapsed += 1
             } else {
-                self.stopTimer()  // Stop the timer when it reaches 0
+                self.stopTimer()
             }
         }
     }
@@ -60,12 +57,12 @@ class TimerObject {
     func stopTimer() {
         isTimerRunning = false
         timer?.invalidate()
-        baseRemainingTime = remainingTime  // Set baseRemainingTime to the current remaining time
+        baseRemainingTime = remainingTime
     }
     
     func resetTimer() {
         timeElapsed = 0
-        baseRemainingTime = length  // Reset baseRemainingTime to the full length
+        baseRemainingTime = length
         isTimerRunning = false
         timer?.invalidate()
     }
