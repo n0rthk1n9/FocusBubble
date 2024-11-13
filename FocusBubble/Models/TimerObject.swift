@@ -12,36 +12,35 @@ class TimerObject {
     var timerColor: Color
     var length: Int
     
-    init(timerColor: Color = .red, length: Int = 1200) {
+    init(timerColor: Color = .red, length: Int = 30) {
         self.timerColor = timerColor
         self.length = length
+        self.baseRemainingTime = length
     }
     
     var timer: Timer? = nil
     var timeElapsed: Int = 0
     var isTimerRunning: Bool = false
-    
+    private var baseRemainingTime: Int
+
     var remainingTime: Int {
         length - timeElapsed
     }
     
     var progress: CGFloat {
-        CGFloat(length - timeElapsed) / CGFloat(length)
+        CGFloat(remainingTime) / CGFloat(baseRemainingTime)
     }
     
     var playButtonDisabled: Bool {
-        guard self.remainingTime > 0, !self.isTimerRunning else { return true }
-        return false
+        return remainingTime == 0 || isTimerRunning
     }
     
     var pauseButtonDisabled: Bool {
-        guard self.remainingTime > 0, self.isTimerRunning else { return true }
-        return false
+        return !isTimerRunning || remainingTime == 0
     }
     
     var resetButtonDisabled: Bool {
-        guard self.remainingTime != self.length, !self.isTimerRunning else { return true }
-        return false
+        return remainingTime == length || isTimerRunning
     }
     
     func startTimer() {
@@ -58,10 +57,13 @@ class TimerObject {
     func stopTimer() {
         isTimerRunning = false
         timer?.invalidate()
+        baseRemainingTime = remainingTime
     }
     
     func resetTimer() {
         timeElapsed = 0
+        baseRemainingTime = length
         isTimerRunning = false
+        timer?.invalidate()
     }
 }

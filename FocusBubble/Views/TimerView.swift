@@ -10,18 +10,20 @@ import SwiftUI
 struct TimerView: View {
     @Environment(TimerObject.self) var timerObject
     let controls: Bool
-    
+
     var body: some View {
         VStack {
             Text(displayedTime(timerObject.remainingTime))
                 .monospacedDigit()
-                .font(.system(size: 100))
+                .font(.system(size: 100, design: .rounded))
                 .foregroundStyle(timerObject.timerColor)
                 .bold()
                 .contentTransition(.numericText())
                 .animation(.linear, value: timerObject.remainingTime)
             HStack {
                 Button {
+                    let impact = UIImpactFeedbackGenerator(style: .medium)
+                    impact.impactOccurred()
                     timerObject.startTimer()
                 } label: {
                     Image(systemName: "play.fill")
@@ -29,12 +31,16 @@ struct TimerView: View {
                 .modifier(ControlButtonStyle(color: timerObject.timerColor, disabled: timerObject.playButtonDisabled))
                 Button {
                     timerObject.stopTimer()
+                    let impact = UIImpactFeedbackGenerator(style: .medium)
+                    impact.impactOccurred()
                 } label: {
                     Image(systemName: "pause.fill")
                 }
                 .modifier(ControlButtonStyle(color: timerObject.timerColor, disabled: timerObject.pauseButtonDisabled))
                 Button {
                     timerObject.resetTimer()
+                    let impact = UIImpactFeedbackGenerator(style: .rigid)
+                    impact.impactOccurred()
                 } label: {
                     Image(systemName: "gobackward")
                 }
@@ -42,7 +48,7 @@ struct TimerView: View {
             }
         }
     }
-    
+
     func displayedTime(_ totalSeconds: Int) -> String {
         let minutes = totalSeconds / 60
         let seconds = totalSeconds % 60
@@ -53,7 +59,7 @@ struct TimerView: View {
 struct ControlButtonStyle: ViewModifier {
     let color: Color
     let disabled: Bool
-    
+
     func body(content: Content) -> some View {
         content
             .font(.title)
