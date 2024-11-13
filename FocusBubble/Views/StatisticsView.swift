@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct StatisticsView: View {
+    @StateObject private var model = StatisticsModel()
+
     var body: some View {
         NavigationView {
-            VStack(spacing: 20) {
+            VStack(spacing: 10) {
                 HStack {
                     Text("Today")
                         .font(.title2)
@@ -51,17 +53,8 @@ struct StatisticsView: View {
                             .font(.caption)
                     }
 
-                    GeometryReader { geometry in
-                        Path { path in
-                            path.move(to: CGPoint(x: 0, y: geometry.size.height))
-                            path.addCurve(to: CGPoint(x: geometry.size.width, y: geometry.size.height * 0.7),
-                                          control1: CGPoint(x: geometry.size.width * 0.25, y: geometry.size.height * 0.4),
-                                          control2: CGPoint(x: geometry.size.width * 0.75, y: geometry.size.height * 0.3))
-                        }
-                        .stroke(Color.blue, lineWidth: 2)
-                    }
-                    .frame(height: 100)
-                    .padding(.vertical, 10)
+                    MonthlyBarChartView(model: model) // Passa il modello qui
+                        .frame(height: 150)
                 }
                 .padding()
                 .background(
@@ -115,6 +108,10 @@ struct StatisticsView: View {
                 .padding(.horizontal)
             }
             .navigationTitle("Your Analytics")
+            .onAppear {
+                
+                model.updateData(newHoursPerMonth: [12, 14, 17, 22, 18, 13, 21, 19, 15, 20, 10, 23])
+            }
         }
     }
 }
