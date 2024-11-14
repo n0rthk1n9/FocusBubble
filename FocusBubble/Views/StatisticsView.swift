@@ -12,7 +12,7 @@ struct StatisticsView: View {
     
     var body: some View {
         NavigationView {
-            VStack(spacing: 10) {
+            VStack(spacing: 2) {
                 HStack {
                     Text("Today")
                         .font(.title2)
