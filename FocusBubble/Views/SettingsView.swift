@@ -56,9 +56,6 @@ struct SettingsView: View {
                     }
                     .pickerStyle(.segmented)
                     
-                    
-                    .pickerStyle(SegmentedPickerStyle())
-                    
                     Text(formatTime(minutes: selectedMode == 0 ? selectedMinutes : selectedBreakMinutes))
                         .font(.system(size: 60))
                         .bold()
@@ -73,7 +70,7 @@ struct SettingsView: View {
                             Text("\(minute) min").tag(minute)
                         }
                     }
-                    .pickerStyle(WheelPickerStyle())
+                    .pickerStyle(.wheel)
                     .onChange(of: selectedMinutes) { newValue in
                         if selectedMode == 0 {
                             timerObject.length = newValue * 60
