@@ -9,7 +9,8 @@ import SwiftUI
 
 struct SettingsView: View {
     @Environment(TimerObject.self) var timerObject
-    
+
+    let timeOptions = ["0:30 (Default)": 30, "15:00": 900, "20:00": 1200, "25:00": 1500]
     let colorOptions: [Color] = [.red, .blue, .green]
     
     @State private var changeColor = 0
