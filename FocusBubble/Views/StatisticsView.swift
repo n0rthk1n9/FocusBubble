@@ -9,7 +9,7 @@ import SwiftUI
 
 struct StatisticsView: View {
     @StateObject private var model = StatisticsModel()
-
+    
     var body: some View {
         NavigationView {
             VStack(spacing: 10) {
@@ -21,19 +21,14 @@ struct StatisticsView: View {
                 }
                 .padding(.horizontal)
 
-                VStack {
-                    ZStack {
-                        Circle()
-                            .fill(
-                                LinearGradient(
-                                    gradient: Gradient(colors: [Color.purple.opacity(0.5), Color.blue.opacity(0.5)]),
-                                    startPoint: .topLeading, endPoint: .bottomTrailing)
-                            )
-                            .frame(width: 120, height: 120)
-                    }
+                VStack(spacing: -10) {
+                    BubbleAnimationView(imageName: "Bubble100")
+                        .frame(width: 140, height: 140)
+
                     Text("4.5h")
                         .font(.largeTitle)
                         .fontWeight(.semibold)
+                        .padding(.bottom)
                     Text("Excellent Focus")
                         .foregroundColor(.gray)
                 }
@@ -73,11 +68,10 @@ struct StatisticsView: View {
             }
             .navigationTitle("Your Analytics")
             .onAppear {
-                //UpdatingFunction (the following parameters are just for testing)
                 model.updateData(
                     hours: [12, 14, 16, 10, 9, 8, 10, 13, 15, 18, 19, 25],
                     bubbles: [1, 3, 2, 1, 2, 1, 0, 1, 0, 0, 1, 1],
-                    dailyHours: ["Mon": 2, "Tue": 2, "Wed": 1.5, "Thu": 3, "Fri": 2, "Sat": 1, "Sun": 2.5]
+                    dailyHours: ["Mon": 1, "Tue": 2, "Wed": 1.5, "Thu": 3, "Fri": 2, "Sat": 1, "Sun": 2.5]
                 )
             }
         }
