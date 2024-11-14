@@ -63,6 +63,10 @@ struct SettingsView: View {
                         .font(.system(size: 60))
                         .bold()
                         .padding()
+                        .monospacedDigit()
+                        .contentTransition(.numericText())
+                        .animation(.linear, value: selectedMinutes)
+                        .animation(.linear, value: selectedBreakMinutes)
                     
                     Picker("Select time in minutes", selection: selectedMode == 0 ? $selectedMinutes : $selectedBreakMinutes) {
                         ForEach(1..<121) { minute in
