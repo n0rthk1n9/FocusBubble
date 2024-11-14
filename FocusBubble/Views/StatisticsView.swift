@@ -28,9 +28,10 @@ struct StatisticsView: View {
                     Text("4.5h")
                         .font(.largeTitle)
                         .fontWeight(.semibold)
-                        .padding(.bottom)
+                        .padding(.bottom, 3)
                     Text("Excellent Focus")
                         .foregroundColor(.gray)
+                        .padding(.bottom, 10)
                 }
 
                 VStack(alignment: .leading, spacing: 10) {
