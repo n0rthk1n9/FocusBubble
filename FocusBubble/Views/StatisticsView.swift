@@ -12,7 +12,7 @@ struct StatisticsView: View {
 
     var body: some View {
         NavigationView {
-            VStack(spacing: 10) {
+            VStack(spacing: 2) {
                 HStack {
                     Text("Today")
                         .font(.title2)
@@ -22,20 +22,17 @@ struct StatisticsView: View {
                 .padding(.horizontal)
 
                 VStack {
-                    ZStack {
-                        Circle()
-                            .fill(
-                                LinearGradient(
-                                    gradient: Gradient(colors: [Color.purple.opacity(0.5), Color.blue.opacity(0.5)]),
-                                    startPoint: .topLeading, endPoint: .bottomTrailing)
-                            )
-                            .frame(width: 120, height: 120)
+                    VStack(spacing: 10) {
+                        BubbleAnimationView(imageName: "Bubble100")
+                        .frame(width: 140, height: 140)
                     }
                     Text("4.5h")
                         .font(.largeTitle)
                         .fontWeight(.semibold)
+                        .padding(.top, -10)
                     Text("Excellent Focus")
                         .foregroundColor(.gray)
+                        .padding(.bottom, 15)
                 }
 
                 VStack(alignment: .leading, spacing: 10) {
