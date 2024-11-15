@@ -46,5 +46,5 @@ struct MainView: View {
 
 #Preview {
     MainView()
-        .environment(TimerObject())
+        .environment(TimerManager())
 }

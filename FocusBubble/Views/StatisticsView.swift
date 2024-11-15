@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct StatisticsView: View {
-    @StateObject private var model = StatisticsModel()
+    @Environment(\.statisticsManager) var model
 
     var body: some View {
         NavigationView {
@@ -57,7 +57,7 @@ struct StatisticsView: View {
                             .font(.caption)
                     }
 
-                    MonthlyBarChartView(model: model)
+                    MonthlyBarChartView()
                         .frame(height: 150)
                 }
                 .padding()
@@ -67,7 +67,8 @@ struct StatisticsView: View {
                         .shadow(color: Color.gray.opacity(0.3), radius: 5, x: 0, y: 5)
                 )
                 .padding(.horizontal)
-
+                
+                @Bindable var model = model
                 WeeklyActivityView(dailyHours: $model.dailyHours)
                     .padding(.horizontal)
             }

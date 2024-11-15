@@ -1,5 +1,5 @@
 //
-//  TimerObject.swift
+//  TimerManager.swift
 //  FocusBubble
 //
 //  Created by Jan Armbrust on 12/11/24.
@@ -8,7 +8,7 @@
 import SwiftUI
 
 @Observable
-class TimerObject {
+class TimerManager {
     var timerColor: Color
     var length: Int
     

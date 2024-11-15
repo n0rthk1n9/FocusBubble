@@ -8,43 +8,43 @@
 import SwiftUI
 
 struct TimerView: View {
-    @Environment(TimerObject.self) var timerObject
+    @Environment(\.timerManager) var timerManager
     let controls: Bool
 
     var body: some View {
         VStack {
-            Text(displayedTime(timerObject.remainingTime))
+            Text(displayedTime(timerManager.remainingTime))
                 .monospacedDigit()
                 .font(.system(size: 100, design: .rounded))
-                .foregroundStyle(timerObject.timerColor)
+                .foregroundStyle(timerManager.timerColor)
                 .bold()
                 .contentTransition(.numericText())
-                .animation(.linear, value: timerObject.remainingTime)
+                .animation(.linear, value: timerManager.remainingTime)
             HStack {
                 Button {
                     let impact = UIImpactFeedbackGenerator(style: .medium)
                     impact.impactOccurred()
-                    timerObject.startTimer()
+                    timerManager.startTimer()
                 } label: {
                     Image(systemName: "play.fill")
                 }
-                .modifier(ControlButtonStyle(color: timerObject.timerColor, disabled: timerObject.playButtonDisabled))
+                .modifier(ControlButtonStyle(color: timerManager.timerColor, disabled: timerManager.playButtonDisabled))
                 Button {
-                    timerObject.stopTimer()
+                    timerManager.stopTimer()
                     let impact = UIImpactFeedbackGenerator(style: .medium)
                     impact.impactOccurred()
                 } label: {
                     Image(systemName: "pause.fill")
                 }
-                .modifier(ControlButtonStyle(color: timerObject.timerColor, disabled: timerObject.pauseButtonDisabled))
+                .modifier(ControlButtonStyle(color: timerManager.timerColor, disabled: timerManager.pauseButtonDisabled))
                 Button {
-                    timerObject.resetTimer()
+                    timerManager.resetTimer()
                     let impact = UIImpactFeedbackGenerator(style: .rigid)
                     impact.impactOccurred()
                 } label: {
                     Image(systemName: "gobackward")
                 }
-                .modifier(ControlButtonStyle(color: timerObject.timerColor, disabled: timerObject.resetButtonDisabled))
+                .modifier(ControlButtonStyle(color: timerManager.timerColor, disabled: timerManager.resetButtonDisabled))
             }
         }
     }
@@ -74,5 +74,5 @@ struct ControlButtonStyle: ViewModifier {
 
 #Preview {
     TimerView(controls: true)
-        .environment(TimerObject())
+        .environment(TimerManager())
 }

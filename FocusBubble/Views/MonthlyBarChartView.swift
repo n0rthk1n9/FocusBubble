@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MonthlyBarChartView: View {
-    @ObservedObject var model: StatisticsModel
+    @Environment(\.statisticsManager) var model
 
     var body: some View {
         let maxHours = model.hoursPerMonth.max() ?? 1
@@ -45,5 +45,6 @@ struct MonthlyBarChartView: View {
 }
 
 #Preview {
-    MonthlyBarChartView(model: StatisticsModel())
+    MonthlyBarChartView()
+        .environment(\.statisticsManager, StatisticsManager())
 }

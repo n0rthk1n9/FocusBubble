@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @Environment(TimerObject.self) var timerObject
+    @Environment(\.timerManager) var timerManager
+    @Environment(\.dismiss) var dismiss
 
     let timeOptions = ["0:30 (Default)": 30, "15:00": 900, "20:00": 1200, "25:00": 1500]
     let colorOptions: [Color] = [.red, .blue, .green]
@@ -44,7 +45,7 @@ struct SettingsView: View {
                     .pickerStyle(.segmented)
                     
                     Section {
-                        @Bindable var timerObject = timerObject
+                        @Bindable var timerObject = timerManager
                         ColorPicker("Select a custom color", selection: $timerObject.timerColor)
                         CustomColorPickerView(selectedColor: $timerObject.timerColor)
                     }
@@ -73,7 +74,7 @@ struct SettingsView: View {
                     .pickerStyle(.wheel)
                     .onChange(of: selectedMinutes) { newValue in
                         if selectedMode == 0 {
-                            timerObject.length = newValue * 60
+                            timerManager.length = newValue * 60
                         }
                     }
                 }
@@ -113,5 +114,5 @@ struct SettingsView: View {
 
 #Preview {
     SettingsView()
-        .environment(TimerObject())
+        .environment(TimerManager())
 }

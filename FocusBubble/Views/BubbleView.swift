@@ -9,7 +9,7 @@ import CoreMotion
 import SwiftUI
 
 struct BubbleView: View {
-    @Environment(TimerObject.self) var timerObject
+    @Environment(\.timerManager) var timerManager
 
     @State private var audioManager = AudioManager()
     @State private var hapticsManager = HapticsManager()
@@ -19,7 +19,7 @@ struct BubbleView: View {
     @State private var yAmplitude: CGFloat = 0
 
     var imageName: String {
-        let progressValue = timerObject.progress.isNaN || timerObject.progress.isInfinite ? 0.0 : timerObject.progress
+        let progressValue = timerManager.progress.isNaN || timerManager.progress.isInfinite ? 0.0 : timerManager.progress
         let stage = max((10 - Int(progressValue * 10)) * 10, 10)
         return "Bubble\(stage)"
     }
@@ -52,7 +52,7 @@ struct BubbleView: View {
                     }
                 }
             }
-            .onChange(of: timerObject.isTimerRunning) { oldValue, newValue in
+            .onChange(of: timerManager.isTimerRunning) { oldValue, newValue in
                 if newValue {
                     startMotionDetection()
                     hapticsManager.prepareHaptics()
@@ -64,7 +64,7 @@ struct BubbleView: View {
 
     func startMotionDetection() {
         motionManager.startMotionDetection {
-            timerObject.stopTimer()
+            timerManager.stopTimer()
             hapticsManager.triggerHapticFeedback()
             audioManager.playSound()
         }
@@ -73,5 +73,5 @@ struct BubbleView: View {
 
 #Preview {
     BubbleView()
-        .environment(TimerObject())
+        .environment(TimerManager())
 }
