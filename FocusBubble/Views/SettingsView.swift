@@ -52,7 +52,6 @@ struct SettingsView: View {
                     VStack {
                         Picker("Select mode", selection: $selectedMode) {
                             Text("Timer").tag(0)
-                            Text("Break").tag(1)
                         }
                     }
                     .pickerStyle(.segmented)
@@ -75,11 +74,6 @@ struct SettingsView: View {
                     .onChange(of: selectedMinutes) { newValue in
                         if selectedMode == 0 {
                             timerObject.length = newValue * 60
-                        }
-                    }
-                    .onChange(of: selectedBreakMinutes) { newValue in
-                        if selectedMode == 1 {
-                            timerObject.breakLength = newValue * 60
                         }
                     }
                 }
