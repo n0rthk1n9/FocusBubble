@@ -14,8 +14,6 @@ struct SettingsView: View {
     let presetTimeOptions = ["0:30 (Default)": 30, "15:00": 900, "20:00": 1200, "25:00": 1500]
     let wheelOptions = [30] + [300, 420] + Array(stride(from: 600, through: 3600, by: 300))
 
-    @State private var selectedTime: Int = 30
-
     var body: some View {
         @Bindable var timerObject = timerManager
         NavigationStack {
@@ -41,17 +39,17 @@ struct SettingsView: View {
                         HStack {
                             Text("Select a specific time")
                             Spacer()
-                            Text(displayedTime(selectedTime))
+                            Text(displayedTime(timerObject.length))
                                 .monospacedDigit()
                                 .font(.system(.title, design: .rounded))
                                 .foregroundStyle(timerManager.timerColor)
                                 .bold()
                                 .contentTransition(.numericText())
-                                .animation(.linear, value: selectedTime)
+                                .animation(.linear, value: timerObject.length)
                         }
                         Picker(
                             "Select time",
-                            selection: $selectedTime
+                            selection: $timerObject.length
                         ) {
                             ForEach(wheelOptions, id: \.self) { seconds in
                                 if seconds < 60 {
@@ -62,9 +60,6 @@ struct SettingsView: View {
                             }
                         }
                         .pickerStyle(.wheel)
-                        .onChange(of: selectedTime) { _, newValue in
-                            timerManager.length = newValue
-                        }
                     }
                 }
             }
