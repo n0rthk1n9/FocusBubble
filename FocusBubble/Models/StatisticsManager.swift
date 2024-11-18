@@ -15,54 +15,78 @@ class StatisticsManager {
         self.focusSessions = focusSessions
     }
 
-    var monthlyFocusTimeData: [(month: String, totalFocusTime: TimeInterval)] {
-        let grouped = Dictionary(grouping: focusSessions) { session in
+    // Static property for mock data
+    static var mock: StatisticsManager {
+        let mockData = (0..<12).map { offset in
+            FocusSession(
+                date: Calendar.current.date(byAdding: .day, value: -30 * offset, to: Date()) ?? Date(),
+                focusTime: TimeInterval(Int.random(in: 1800...14400)), // Random focus time between 30 min and 4 hours
+                distractions: Int.random(in: 0...10) // Random distractions between 0 and 10
+            )
+        }
+        let manager = StatisticsManager()
+        manager.updateData(focusSessions: mockData)
+        return manager
+    }
+
+    private var shortMonthSymbols: [String] { Calendar.current.shortMonthSymbols }
+    var currentMonthIndex: Int { Calendar.current.component(.month, from: Date()) - 1}
+    var sortedMonths: [String] {
+        Array(shortMonthSymbols[(currentMonthIndex + 1)...]) + Array(shortMonthSymbols[0...currentMonthIndex])
+    }
+
+    private func groupedSessions(by component: Calendar.Component) -> [DateComponents: [FocusSession]] {
+        Dictionary(grouping: focusSessions) { session in
             Calendar.current.dateComponents([.year, .month], from: session.date)
-        }
-
-        let shortMonthSymbols = Calendar.current.shortMonthSymbols
-
-        let currentMonthIndex = Calendar.current.component(.month, from: Date()) - 1
-
-
-        let sortedMonths = Array(shortMonthSymbols[(currentMonthIndex+1)...]) + Array(shortMonthSymbols[0...(currentMonthIndex)])
-
-  
-        return grouped.map { key, value in
-            let totalFocusTime = value.reduce(0) { $0 + $1.focusTime }
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "MMM"
-            let monthString = dateFormatter.string(from: Calendar.current.date(from: key)!)
-            return (monthString, totalFocusTime)
-        }
-        .sorted { first, second in
-            sortedMonths.firstIndex(of: first.month)! < sortedMonths.firstIndex(of: second.month)!
         }
     }
 
-    var monthlyDistractionsData: [(month: String, totalDistractions: Int)] {
-        let grouped = Dictionary(grouping: focusSessions) { session in
-            Calendar.current.dateComponents([.year, .month], from: session.date)
-        }
+    private func formattedMonth(from dateComponents: DateComponents) -> String? {
+        guard let date = Calendar.current.date(from: dateComponents) else { return nil }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM"
+        return formatter.string(from: date)
+    }
 
-
-        let shortMonthSymbols = Calendar.current.shortMonthSymbols
-
-
-        let currentMonthIndex = Calendar.current.component(.month, from: Date()) - 1
-
-        let sortedMonths = Array(shortMonthSymbols[(currentMonthIndex+1)...]) + Array(shortMonthSymbols[0...(currentMonthIndex)])
-
-        return grouped.map { key, value in
-            let totalDistractions = value.reduce(0) { $0 + $1.distractions }
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "MMM"
-            let monthString = dateFormatter.string(from: Calendar.current.date(from: key)!)
-            return (monthString, totalDistractions)
+    private func sortedMonthlyData<T>(
+        groupedData: [DateComponents: [FocusSession]],
+        dataExtractor: (FocusSession) -> T,
+        aggregator: ([T]) -> T
+    ) -> [(month: String, value: T)] {
+        groupedData.compactMap { key, sessions in
+            guard let monthString = formattedMonth(from: key) else { return nil }
+            let values = sessions.map(dataExtractor)
+            return (monthString, aggregator(values))
         }
         .sorted { first, second in
-            sortedMonths.firstIndex(of: first.month)! < sortedMonths.firstIndex(of: second.month)!
+            guard
+                let firstIndex = sortedMonths.firstIndex(of: first.month),
+                let secondIndex = sortedMonths.firstIndex(of: second.month)
+            else {
+                return false
+            }
+            return firstIndex < secondIndex
         }
+    }
+
+    var monthlyFocusTimeData: [(month: String, totalFocusTime: TimeInterval)] {
+        let grouped = groupedSessions(by: .month)
+        return sortedMonthlyData(
+            groupedData: grouped,
+            dataExtractor: { $0.focusTime },
+            aggregator: { $0.reduce(0, +) }
+        )
+        .map { (month, value) in (month: month, totalFocusTime: value) }
+    }
+
+    var monthlyDistractionsData: [(month: String, totalDistractions: Int)] {
+        let grouped = groupedSessions(by: .month)
+        return sortedMonthlyData(
+            groupedData: grouped,
+            dataExtractor: { $0.distractions },
+            aggregator: { $0.reduce(0, +) }
+        )
+        .map { (month, value) in (month: month, totalDistractions: value) }
     }
 
     func updateData(focusSessions: [FocusSession]) {

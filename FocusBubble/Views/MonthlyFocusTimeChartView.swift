@@ -5,28 +5,25 @@
 //  Created by Daniele Fontana on 18/11/24.
 //
 
-import SwiftUI
 import Charts
+import SwiftUI
 
 struct MonthlyFocusTimeChartView: View {
-    let monthlyFocusTime: [(month: String, totalFocusTime: TimeInterval)]
+    @Environment(\.timerManager) var timerManager
+    @Environment(\.statisticsManager) var statisticsManager
 
     var body: some View {
-   
-        let shortMonthSymbols = Calendar.current.shortMonthSymbols
-
-        let currentMonth = Calendar.current.component(.month, from: Date()) - 1
+        let monthlyFocusTime = statisticsManager.monthlyFocusTimeData
 
         Chart(monthlyFocusTime, id: \.month) { data in
-
-            let monthIndex = shortMonthSymbols.firstIndex { $0 == data.month } ?? 0
-            
-    
-            let barColor: Color = (monthIndex == currentMonth) ? .blue : .blue.opacity(0.6)
+            let monthIndex = statisticsManager.sortedMonths.firstIndex { $0 == data.month } ?? 0
+            let currentMonth = statisticsManager.currentMonthIndex
+            let barColor: Color =
+                (monthIndex == currentMonth) ? timerManager.timerColor : timerManager.timerColor.opacity(0.6)
 
             BarMark(
                 x: .value("Month", data.month),
-                y: .value("Total Focus Time", data.totalFocusTime / 3600)
+                y: .value("Total Focus Time", data.totalFocusTime / 3600)  // Convert seconds to hours
             )
             .foregroundStyle(barColor)
         }
@@ -35,14 +32,8 @@ struct MonthlyFocusTimeChartView: View {
 }
 
 #Preview {
-    MonthlyFocusTimeChartView(
-        monthlyFocusTime: [("Jan", 7200), ("Feb", 10800), ("Mar", 5400), ("Nov", 10000)]
-    )
-    .aspectRatio(1, contentMode: .fit)
-    .padding()
+    MonthlyFocusTimeChartView()
+        .environment(\.statisticsManager, StatisticsManager.mock)
+        .aspectRatio(1, contentMode: .fit)
+        .padding()
 }
-
-
-
-
-

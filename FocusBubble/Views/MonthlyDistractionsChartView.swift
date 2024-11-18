@@ -9,26 +9,28 @@ import SwiftUI
 import Charts
 
 struct MonthlyDistractionsChartView: View {
-    let monthlyDistractions: [(month: String, totalDistractions: Int)]
+    @Environment(\.timerManager) var timerManager
+    @Environment(\.statisticsManager) var statisticsManager
 
     var body: some View {
+        let monthlyDistractions = statisticsManager.monthlyDistractionsData
+
         Chart(monthlyDistractions, id: \.month) { data in
             LineMark(
                 x: .value("Month", data.month),
                 y: .value("Distractions", data.totalDistractions)
             )
-            .foregroundStyle(.red)
+            .foregroundStyle(timerManager.timerColor)
         }
         .chartYAxisLabel("Distractions")
     }
 }
 
 #Preview {
-    MonthlyDistractionsChartView(
-        monthlyDistractions: [("Jan", 5), ("Feb", 8), ("Mar", 3)]
-    )
-    .aspectRatio(1, contentMode: .fit)
-    .padding()
+    MonthlyDistractionsChartView()
+        .environment(\.statisticsManager, StatisticsManager.mock)
+            .aspectRatio(1, contentMode: .fit)
+            .padding()
 }
 
 
