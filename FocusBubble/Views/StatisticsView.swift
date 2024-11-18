@@ -14,7 +14,12 @@ struct StatisticsView: View {
         NavigationView {
             ScrollView {
                 VStack(spacing: 20) {
+                    Text("Today you've been focused for")
+                        .font(.body)
+                        .foregroundColor(Color.gray)
+                        .padding(.leading, -132)
 
+                    
                     VStack(spacing: 10) {
                         BubbleAnimationView(imageName: "Bubble100")
                             .frame(width: 140, height: 140)
