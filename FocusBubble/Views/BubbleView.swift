@@ -17,11 +17,17 @@ struct BubbleView: View {
 
     @State private var xAmplitude: CGFloat = 0
     @State private var yAmplitude: CGFloat = 0
+    @State private var isPopping = false
+    @State private var poppingFrame = 100 // Start with BubblePopping100
 
     var imageName: String {
-        let progressValue = timerManager.progress.isNaN || timerManager.progress.isInfinite ? 0.0 : timerManager.progress
-        let stage = max((10 - Int(progressValue * 10)) * 10, 10)
-        return "Bubble\(stage)"
+        if isPopping {
+            return "BubblePopping\(poppingFrame)"
+        } else {
+            let progressValue = timerManager.progress.isNaN || timerManager.progress.isInfinite ? 0.0 : timerManager.progress
+            let stage = max((10 - Int(progressValue * 10)) * 10, 10)
+            return "Bubble\(stage)"
+        }
     }
 
     var maxStep: CGFloat {
@@ -64,9 +70,28 @@ struct BubbleView: View {
 
     func startMotionDetection() {
         motionManager.startMotionDetection {
+            startPoppingAnimation()
             timerManager.stopTimer()
             hapticsManager.triggerHapticFeedback()
             audioManager.playSound()
+            
+        }
+    }
+
+    private func startPoppingAnimation() {
+        isPopping = true
+        poppingFrame = max((10 - Int(timerManager.progress * 10)) * 10, 10) // Start from current bubble stage
+
+        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in // Faster updates
+            if poppingFrame > 10 {
+                withAnimation(.linear(duration: 0.1)) { // Smooth linear transition
+                    poppingFrame -= 10
+                }
+            } else {
+                timer.invalidate()
+                isPopping = false
+                poppingFrame = 100 // Reset for next animation
+            }
         }
     }
 }
