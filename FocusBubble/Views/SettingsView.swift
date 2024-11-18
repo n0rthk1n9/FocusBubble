@@ -12,9 +12,9 @@ struct SettingsView: View {
     @Environment(\.dismiss) var dismiss
 
     let presetTimeOptions = ["0:30 (Default)": 30, "15:00": 900, "20:00": 1200, "25:00": 1500]
-    let wheelOptions = [30] + Array(stride(from: 300, through: 3600, by: 300)) // Add 3 seconds, then 5-minute steps
+    let wheelOptions = [30] + [300, 420] + Array(stride(from: 600, through: 3600, by: 300))
 
-    @State private var selectedTime: Int = 30 // Default value in seconds
+    @State private var selectedTime: Int = 30
 
     var body: some View {
         @Bindable var timerObject = timerManager
@@ -33,14 +33,15 @@ struct SettingsView: View {
                             Text(key)
                                 .tag(presetTimeOptions[key] ?? 1200)
                         }
-                        Text("Custom: \(displayedTime(timerManager.length))") // Represent custom time
-                            .tag(timerManager.length) // Bind to the custom time
+                        Text("Custom: \(displayedTime(timerManager.length))")
+                            .tag(timerManager.length)
                     }
+                    .tint(.secondary)
                     VStack {
                         HStack {
                             Text("Select a specific time")
                             Spacer()
-                            Text(displayedTime(selectedTime)) // Convert seconds to mm:ss for display
+                            Text(displayedTime(selectedTime))
                                 .monospacedDigit()
                                 .font(.system(.title, design: .rounded))
                                 .foregroundStyle(timerManager.timerColor)
@@ -54,15 +55,15 @@ struct SettingsView: View {
                         ) {
                             ForEach(wheelOptions, id: \.self) { seconds in
                                 if seconds < 60 {
-                                    Text("\(seconds) sec").tag(seconds) // Display seconds for small values
+                                    Text("\(seconds) sec").tag(seconds)
                                 } else {
-                                    Text("\(seconds / 60) min").tag(seconds) // Display minutes for larger values
+                                    Text("\(seconds / 60) min").tag(seconds)
                                 }
                             }
                         }
                         .pickerStyle(.wheel)
                         .onChange(of: selectedTime) { _, newValue in
-                            timerManager.length = newValue // Store in seconds
+                            timerManager.length = newValue
                         }
                     }
                 }
