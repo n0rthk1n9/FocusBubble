@@ -17,4 +17,7 @@ extension EnvironmentValues {
         get { self[StatisticsManagerEnvironmentKey.self] }
         set { self[StatisticsManagerEnvironmentKey.self] = newValue }
     }
+    
+    
 }
+

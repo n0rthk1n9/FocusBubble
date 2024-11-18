@@ -9,28 +9,49 @@ import SwiftUI
 
 @Observable
 class StatisticsManager {
-    var hoursPerMonth: [Int]
-    var bubblesPoppedPerMonth: [Int]
-    var months: [String]
-    var dailyHours: [String: Double]
-    
+    var focusSessions: [FocusSession]
+
     init(
-        hoursPerMonth: [Int] = [10, 15, 20, 18, 25, 30, 40, 15, 12, 20, 28, 30],
-        bubblesPoppedPerMonth: [Int] = [5, 6, 7, 4, 5, 9, 6, 5, 4, 7, 8, 6],
-        months: [String] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        dailyHours: [String: Double] = ["Mon": 1, "Tue": 2, "Wed": 1, "Thu": 3, "Fri": 2, "Sat": 1, "Sun": 2.5]
-        
+        focusSessions: [FocusSession] = []
     ) {
-        self.hoursPerMonth = hoursPerMonth
-        self.bubblesPoppedPerMonth = bubblesPoppedPerMonth
-        self.months = months
-        self.dailyHours = dailyHours
+        self.focusSessions = focusSessions
+
     }
-    
-    func updateData(hours: [Int], bubbles: [Int], dailyHours: [String: Double]) {
-        self.hoursPerMonth = hours
-        self.bubblesPoppedPerMonth = bubbles
-        self.dailyHours = dailyHours  
+
+    var monthlyFocusTimeData: [(month: String, totalFocusTime: TimeInterval)] {
+        let grouped = Dictionary(grouping: focusSessions) { session in
+            Calendar.current.dateComponents([.year, .month], from: session.date)
+        }
+
+        return grouped.map { key, value in
+            let totalFocusTime = value.reduce(0) { $0 + $1.focusTime }
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MMM"
+            let monthString = dateFormatter.string(from: Calendar.current.date(from: key)!)
+            return (monthString, totalFocusTime)
+        }
+        .sorted { $0.month < $1.month }
+    }
+
+    var monthlyDistractionsData: [(month: String, totalDistractions: Int)] {
+        let grouped = Dictionary(grouping: focusSessions) { session in
+            Calendar.current.dateComponents([.year, .month], from: session.date)
+        }
+
+        return grouped.map { key, value in
+            let totalDistractions = value.reduce(0) { $0 + $1.distractions }
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MMM"
+            let monthString = dateFormatter.string(from: Calendar.current.date(from: key)!)
+            return (monthString, totalDistractions)
+        }
+        .sorted { $0.month < $1.month }
+    }
+
+    func updateData(focusSessions: [FocusSession]) {
+        self.focusSessions = focusSessions
     }
 }
+
+
 

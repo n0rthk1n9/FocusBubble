@@ -12,71 +12,76 @@ struct StatisticsView: View {
 
     var body: some View {
         NavigationView {
-            VStack(spacing: 2) {
-                HStack {
-                    Text("Today")
-                        .font(.title2)
-                        .foregroundColor(.gray)
-                    Spacer()
-                }
-                .padding(.horizontal)
+            ScrollView {
+                VStack(spacing: 20) {
 
-                VStack {
                     VStack(spacing: 10) {
                         BubbleAnimationView(imageName: "Bubble100")
-                        .frame(width: 140, height: 140)
-                    }
-                    Text("4.5h")
-                        .font(.largeTitle)
-                        .fontWeight(.semibold)
-                        .padding(.top, -10)
-                    Text("Excellent Focus")
-                        .foregroundColor(.gray)
-                        .padding(.bottom, 15)
-                }
-
-                VStack(alignment: .leading, spacing: 10) {
-                    Text("Monthly Activity")
-                        .font(.title2)
-                        .fontWeight(.semibold)
-
-                    HStack {
-                        Circle()
-                            .fill(Color.blue)
-                            .frame(width: 10, height: 10)
-                        Text("Active Session")
-                            .font(.caption)
-
-                        Circle()
-                            .fill(Color.red)
-                            .frame(width: 10, height: 10)
-                        Text("Popped Bubbles")
-                            .font(.caption)
+                            .frame(width: 140, height: 140)
+                        Text("4.5h")
+                            .font(.largeTitle)
+                            .fontWeight(.semibold)
+                            .padding(.top, -10)
+                        Text("Excellent Focus")
+                            .foregroundColor(.gray)
+                            .padding(.bottom, 15)
                     }
 
-                    MonthlyBarChartView()
-                        .frame(height: 150)
-                }
-                .padding()
-                .background(
-                    RoundedRectangle(cornerRadius: 15)
-                        .fill(Color.white)
-                        .shadow(color: Color.gray.opacity(0.3), radius: 5, x: 0, y: 5)
-                )
-                .padding(.horizontal)
-                
-                @Bindable var model = model
-                WeeklyActivityView(dailyHours: $model.dailyHours)
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Monthly Focus Time")
+                            .font(.title2)
+                            .fontWeight(.semibold)
+
+                        MonthlyFocusTimeChartView(
+                            monthlyFocusTime: model.monthlyFocusTimeData
+                        )
+                        .frame(height: 300)
+                    }
+                    .padding()
+                    .background(
+                        RoundedRectangle(cornerRadius: 15)
+                            .fill(Color.white)
+                            .shadow(color: Color.gray.opacity(0.3), radius: 5, x: 0, y: 5)
+                    )
                     .padding(.horizontal)
-            }
-            .navigationTitle("Your Analytics")
-            .onAppear {
-                //UpdatingFunction (the following parameters are just for testing)
-                model.updateData(
-                    hours: [12, 14, 16, 10, 9, 8, 10, 13, 15, 18, 19, 25],
-                    bubbles: [1, 3, 2, 1, 2, 1, 0, 1, 0, 0, 1, 1],
-                    dailyHours: ["Mon": 2, "Tue": 2, "Wed": 1.5, "Thu": 3, "Fri": 2, "Sat": 1, "Sun": 2.5]
-                )
+
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Monthly Distractions")
+                            .font(.title2)
+                            .fontWeight(.semibold)
+
+                        MonthlyDistractionsChartView(
+                            monthlyDistractions: model.monthlyDistractionsData
+                        )
+                        .frame(height: 300)
+                    }
+                    .padding()
+                    .background(
+                        RoundedRectangle(cornerRadius: 15)
+                            .fill(Color.white)
+                            .shadow(color: Color.gray.opacity(0.3), radius: 5, x: 0, y: 5)
+                    )
+                    .padding(.horizontal)
+                }
+                .navigationTitle("Your Analytics")
+                .onAppear {
+                    model.updateData(
+                        focusSessions: [
+                            FocusSession(date: Date(), focusTime: 3600, distractions: 1),
+                            FocusSession(date: Date().addingTimeInterval(-86400 * 30), focusTime: 4200, distractions: 2),
+                            FocusSession(date: Date().addingTimeInterval(-86400 * 60), focusTime: 4800, distractions: 3),
+                            FocusSession(date: Date().addingTimeInterval(-86400 * 90), focusTime: 5400, distractions: 4),
+                            FocusSession(date: Date().addingTimeInterval(-86400 * 120), focusTime: 6000, distractions: 1),
+                            FocusSession(date: Date().addingTimeInterval(-86400 * 150), focusTime: 6600, distractions: 2),
+                            FocusSession(date: Date().addingTimeInterval(-86400 * 180), focusTime: 7200, distractions: 3),
+                            FocusSession(date: Date().addingTimeInterval(-86400 * 210), focusTime: 7800, distractions: 4),
+                            FocusSession(date: Date().addingTimeInterval(-86400 * 240), focusTime: 8400, distractions: 1),
+                            FocusSession(date: Date().addingTimeInterval(-86400 * 270), focusTime: 9000, distractions: 2),
+                            FocusSession(date: Date().addingTimeInterval(-86400 * 300), focusTime: 9600, distractions: 3),
+                            FocusSession(date: Date().addingTimeInterval(-86400 * 330), focusTime: 10200, distractions: 4)
+                        ]
+                    )
+                }
             }
         }
     }
