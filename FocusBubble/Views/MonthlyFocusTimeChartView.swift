@@ -15,14 +15,13 @@ struct MonthlyFocusTimeChartView: View {
    
         let shortMonthSymbols = Calendar.current.shortMonthSymbols
 
-        // Ottieni il mese corrente
         let currentMonth = Calendar.current.component(.month, from: Date()) - 1
 
         Chart(monthlyFocusTime, id: \.month) { data in
 
             let monthIndex = shortMonthSymbols.firstIndex { $0 == data.month } ?? 0
             
-            // Imposta il colore in base al mese
+    
             let barColor: Color = (monthIndex == currentMonth) ? .blue : .blue.opacity(0.6)
 
             BarMark(
