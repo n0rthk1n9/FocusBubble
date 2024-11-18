@@ -10,7 +10,7 @@ import SwiftUI
 
 struct MonthlyFocusTimeChartView: View {
     @Environment(\.timerManager) var timerManager
-    @Environment(\.statisticsManager) var statisticsManager
+    @State var statisticsManager = StatisticsManager.mock
 
     var body: some View {
         let monthlyFocusTime = statisticsManager.monthlyFocusTimeData

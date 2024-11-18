@@ -10,7 +10,7 @@ import Charts
 
 struct MonthlyDistractionsChartView: View {
     @Environment(\.timerManager) var timerManager
-    @Environment(\.statisticsManager) var statisticsManager
+    @State var statisticsManager = StatisticsManager.mock
 
     var body: some View {
         let monthlyDistractions = statisticsManager.monthlyDistractionsData
