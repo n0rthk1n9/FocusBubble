@@ -8,80 +8,73 @@
 import SwiftUI
 
 struct StatisticsView: View {
-    @Environment(\.statisticsManager) var model
+    @Environment(\.statisticsManager) var statisticsManager
+    @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
-        NavigationView {
-            VStack(spacing: 2) {
-                HStack {
-                    Text("Today")
-                        .font(.title2)
-                        .foregroundColor(.gray)
-                    Spacer()
-                }
-                .padding(.horizontal)
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    Text("Today you've been focused for")
+                        .font(.body)
+                        .foregroundColor(Color.gray)
 
-                VStack {
                     VStack(spacing: 10) {
                         BubbleAnimationView(imageName: "Bubble100")
-                        .frame(width: 140, height: 140)
+                            .frame(width: 140, height: 140)
+                        Text("2h 25m")
+                            .font(.largeTitle)
+                            .fontWeight(.semibold)
+                        Text("Excellent Focus")
+                            .foregroundColor(.gray)
+                            .padding(.bottom)
                     }
-                    Text("4.5h")
-                        .font(.largeTitle)
-                        .fontWeight(.semibold)
-                        .padding(.top, -10)
-                    Text("Excellent Focus")
-                        .foregroundColor(.gray)
-                        .padding(.bottom, 15)
-                }
+                    .frame(maxWidth: .infinity)
 
-                VStack(alignment: .leading, spacing: 10) {
-                    Text("Monthly Activity")
-                        .font(.title2)
-                        .fontWeight(.semibold)
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Monthly Focus Time")
+                            .font(.title2)
+                            .fontWeight(.semibold)
 
-                    HStack {
-                        Circle()
-                            .fill(Color.blue)
-                            .frame(width: 10, height: 10)
-                        Text("Active Session")
-                            .font(.caption)
-
-                        Circle()
-                            .fill(Color.red)
-                            .frame(width: 10, height: 10)
-                        Text("Popped Bubbles")
-                            .font(.caption)
+                        MonthlyFocusTimeChartView()
+                            .frame(height: 180)
                     }
+                    .padding()
+                    .background(
+                        RoundedRectangle(cornerRadius: 15)
+                            .fill(colorScheme == .light ? .white : .gray.opacity(0.3))
+                            .shadow(color: colorScheme == .light ? .gray.opacity(0.3) : .white.opacity(0.1), radius: 5, x: 0, y: 5)
+                    )
 
-                    MonthlyBarChartView()
-                        .frame(height: 150)
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Monthly Distractions")
+                            .font(.title2)
+                            .fontWeight(.semibold)
+
+                        MonthlyDistractionsChartView()
+                            .frame(height: 180)
+                    }
+                    .padding()
+                    .background(
+                        RoundedRectangle(cornerRadius: 15)
+                            .fill(colorScheme == .light ? .white : .gray.opacity(0.3))
+                            .shadow(color: colorScheme == .light ? .gray.opacity(0.3) : .white.opacity(0.1), radius: 5, x: 0, y: 5)
+                    )
                 }
-                .padding()
-                .background(
-                    RoundedRectangle(cornerRadius: 15)
-                        .fill(Color.white)
-                        .shadow(color: Color.gray.opacity(0.3), radius: 5, x: 0, y: 5)
-                )
                 .padding(.horizontal)
-                
-                @Bindable var model = model
-                WeeklyActivityView(dailyHours: $model.dailyHours)
-                    .padding(.horizontal)
-            }
-            .navigationTitle("Your Analytics")
-            .onAppear {
-                //UpdatingFunction (the following parameters are just for testing)
-                model.updateData(
-                    hours: [12, 14, 16, 10, 9, 8, 10, 13, 15, 18, 19, 25],
-                    bubbles: [1, 3, 2, 1, 2, 1, 0, 1, 0, 0, 1, 1],
-                    dailyHours: ["Mon": 2, "Tue": 2, "Wed": 1.5, "Thu": 3, "Fri": 2, "Sat": 1, "Sun": 2.5]
-                )
+                .navigationTitle("Your Analytics")
             }
         }
+    }
+
+    private func formattedTime(_ time: TimeInterval) -> String {
+        let hours = Int(time) / 3600
+        let minutes = (Int(time) % 3600) / 60
+        return "\(hours)h \(minutes)m"
     }
 }
 
 #Preview {
     StatisticsView()
+        .environment(\.statisticsManager, StatisticsManager.mock)
 }
