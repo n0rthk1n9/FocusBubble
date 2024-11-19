@@ -15,7 +15,8 @@
 
 ## 📷 Screenshots
 
-![main_view_iPhone_16_Pro](https://github.com/user-attachments/assets/66c30233-c3f2-4d91-81c7-8400c083dfd2 | width=200)![statistics_view_iPhone_16_Pro](https://github.com/user-attachments/assets/17b3e65d-844d-488e-a24d-d39356c2f9ef)![settings_view_iPhone_16_Pro](https://github.com/user-attachments/assets/0eef0bc4-0eb5-4d01-81db-ac937691e1fc)
+<img src="https://github.com/user-attachments/assets/66c30233-c3f2-4d91-81c7-8400c083dfd2" width="200">
+![statistics_view_iPhone_16_Pro](https://github.com/user-attachments/assets/17b3e65d-844d-488e-a24d-d39356c2f9ef)![settings_view_iPhone_16_Pro](https://github.com/user-attachments/assets/0eef0bc4-0eb5-4d01-81db-ac937691e1fc)
 
 
 ---
