@@ -35,7 +35,7 @@
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/yourusername/focus-bubble.git
+   git clone git@github.com:n0rthk1n9/FocusBubble.git
    ```
 2. Open the project in Xcode.
 3. Run the app on a simulator or a connected device.
@@ -47,8 +47,14 @@
 ## 🧑‍💻 Contributing
 
 Contributions are welcome! To contribute:
-	1.	Fork the repository.
-	2.	Create a new branch:
-      ```bash
-      git checkout -b feature/your-feature-name
-      ```
+
+1. Fork the repository.
+2. Create a new branch:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+3. Commit your changes and push the branch:
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+4. Open a pull request.
