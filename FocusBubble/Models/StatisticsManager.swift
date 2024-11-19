@@ -15,7 +15,6 @@ class StatisticsManager {
         self.focusSessions = focusSessions
     }
 
-    // Static property for mock data
     static var mock: StatisticsManager {
         let mockData = (0..<12).map { offset in
             FocusSession(
@@ -30,7 +29,7 @@ class StatisticsManager {
     }
 
     private var shortMonthSymbols: [String] { Calendar.current.shortMonthSymbols }
-    var currentMonthIndex: Int { Calendar.current.component(.month, from: Date()) - 1}
+    var currentMonthIndex: Int { Calendar.current.component(.month, from: Date()) - 1 }
     var sortedMonths: [String] {
         Array(shortMonthSymbols[(currentMonthIndex + 1)...]) + Array(shortMonthSymbols[0...currentMonthIndex])
     }
@@ -93,3 +92,4 @@ class StatisticsManager {
         self.focusSessions = focusSessions
     }
 }
+
