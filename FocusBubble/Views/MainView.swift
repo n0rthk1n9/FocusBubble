@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct MainView: View {
+    @Environment(\.timerManager) var timerManager
+    
     @State var showStatisticsView: Bool = false
     @State var showSettingsView: Bool = false
     
@@ -21,6 +23,7 @@ struct MainView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         showStatisticsView.toggle()
+                        timerManager.resetTimer()
                     } label: {
                         Image(systemName: "chart.bar")
                     }
@@ -28,6 +31,7 @@ struct MainView: View {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
                         showSettingsView.toggle()
+                        timerManager.resetTimer()
                     } label: {
                         Image(systemName: "gear")
                     }

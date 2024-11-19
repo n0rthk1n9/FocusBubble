@@ -11,104 +11,66 @@ struct SettingsView: View {
     @Environment(\.timerManager) var timerManager
     @Environment(\.dismiss) var dismiss
 
-    let timeOptions = ["0:30 (Default)": 30, "15:00": 900, "20:00": 1200, "25:00": 1500]
-    let colorOptions: [Color] = [.red, .blue, .green]
-    
-    @State private var changeColor = 0
-    @State private var selectedMinutes: Int = 50
-    @State private var selectedBreakMinutes: Int = 10
-    @State private var selectedMode: Int = 0
-    
+    let presetTimeOptions = ["0:30 (Default)": 30, "15:00": 900, "20:00": 1200, "25:00": 1500]
+    let wheelOptions = [30] + [300, 420] + Array(stride(from: 600, through: 3600, by: 300))
+
     var body: some View {
+        @Bindable var timerObject = timerManager
         NavigationStack {
-            VStack {
-                Text("Appearence")
-                    .font(.title)
-                    .foregroundColor(.black)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading, 20)
-                    .padding(.vertical, 5)
-                
-                Text("Choose your theme color as you wish")
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading, 20)
-                    .padding(.vertical, 5)
-                
-                VStack {
-                    Picker("Change color", selection: $changeColor) {
-                        Text("Bubble").tag(0)
-                        Text("Timer").tag(1)
-                        Text("Background").tag(2)
-                    }
-                    .pickerStyle(.segmented)
-                    
+            Form {
+                Section("Appearance") {
                     Section {
-                        @Bindable var timerObject = timerManager
                         ColorPicker("Select a custom color", selection: $timerObject.timerColor)
                         CustomColorPickerView(selectedColor: $timerObject.timerColor)
                     }
-                    
-                    VStack {
-                        Picker("Select mode", selection: $selectedMode) {
-                            Text("Timer").tag(0)
-                        }
-                    }
-                    .pickerStyle(.segmented)
-                    
-                    Text(formatTime(minutes: selectedMode == 0 ? selectedMinutes : selectedBreakMinutes))
-                        .font(.system(size: 60))
-                        .bold()
-                        .padding()
-                        .monospacedDigit()
-                        .contentTransition(.numericText())
-                        .animation(.linear, value: selectedMinutes)
-                        .animation(.linear, value: selectedBreakMinutes)
-                    
-                    Picker("Select time in minutes", selection: selectedMode == 0 ? $selectedMinutes : $selectedBreakMinutes) {
-                        ForEach(1..<121) { minute in
-                            Text("\(minute) min").tag(minute)
-                        }
-                    }
-                    .pickerStyle(.wheel)
-                    .onChange(of: selectedMinutes) { newValue in
-                        if selectedMode == 0 {
-                            timerManager.length = newValue * 60
-                        }
-                    }
                 }
-                .padding(.horizontal)
-                
-                HStack {
-                    Button {
-                        //
-                    } label: {
-                        Text("Cancle")
-                            .frame(maxWidth: .infinity)
-                    }
-                    .buttonStyle(.bordered)
-                    .tint(.primary)
-                    
-                    Button {
-                        //
-                    } label: {
-                        Text("Save")
-                            .frame(maxWidth: .infinity)
-                    }
-                    .buttonStyle(.bordered)
-                    .tint(.primary)
 
-                        
+                Section("Timer") {
+                    Picker("Select a preset", selection: $timerObject.length) {
+                        ForEach(presetTimeOptions.keys.sorted(), id: \.self) { key in
+                            Text(key)
+                                .tag(presetTimeOptions[key] ?? 1200)
+                        }
+                        Text("Custom: \(displayedTime(timerManager.length))")
+                            .tag(timerManager.length)
+                    }
+                    .tint(.secondary)
+                    VStack {
+                        HStack {
+                            Text("Select a specific time")
+                            Spacer()
+                            Text(displayedTime(timerObject.length))
+                                .monospacedDigit()
+                                .font(.system(.title, design: .rounded))
+                                .foregroundStyle(timerManager.timerColor)
+                                .bold()
+                                .contentTransition(.numericText())
+                                .animation(.linear, value: timerObject.length)
+                        }
+                        Picker(
+                            "Select time",
+                            selection: $timerObject.length
+                        ) {
+                            ForEach(wheelOptions, id: \.self) { seconds in
+                                if seconds < 60 {
+                                    Text("\(seconds) sec").tag(seconds)
+                                } else {
+                                    Text("\(seconds / 60) min").tag(seconds)
+                                }
+                            }
+                        }
+                        .pickerStyle(.wheel)
+                    }
                 }
-                .padding([.horizontal, .top])
             }
             .navigationTitle("Settings")
         }
     }
-    
-    func formatTime(minutes: Int) -> String {
-        return String(format: "%02d:00", minutes)
+
+    func displayedTime(_ totalSeconds: Int) -> String {
+        let minutes = totalSeconds / 60
+        let seconds = totalSeconds % 60
+        return String(format: "%01d:%02d", minutes, seconds)
     }
 }
 
