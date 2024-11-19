@@ -14,12 +14,15 @@ struct MonthlyFocusTimeChartView: View {
 
     var body: some View {
         let monthlyFocusTime = statisticsManager.monthlyFocusTimeData
+        let sortedMonths = statisticsManager.sortedMonths
+
+        let currentMonthName = Calendar.current.shortMonthSymbols[statisticsManager.currentMonthIndex]
+        let currentSortedIndex = sortedMonths.firstIndex(of: currentMonthName) ?? 0
 
         Chart(monthlyFocusTime, id: \.month) { data in
-            let monthIndex = statisticsManager.sortedMonths.firstIndex { $0 == data.month } ?? 0
-            let currentMonth = statisticsManager.currentMonthIndex
+            let monthIndex = sortedMonths.firstIndex(of: data.month) ?? 0
             let barColor: Color =
-                (monthIndex == currentMonth) ? timerManager.timerColor : timerManager.timerColor.opacity(0.6)
+                (monthIndex == currentSortedIndex) ? timerManager.timerColor : timerManager.timerColor.opacity(0.6)
 
             BarMark(
                 x: .value("Month", data.month),
@@ -37,3 +40,4 @@ struct MonthlyFocusTimeChartView: View {
         .aspectRatio(1, contentMode: .fit)
         .padding()
 }
+
