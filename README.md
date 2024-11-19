@@ -1,6 +1,6 @@
 # 📱 Focus Bubble
 
-**Focus Bubble** is a productivity app that helps you stay focused and beat distractions. Set a timer, and watch your bubble grow as you stay on task. But be careful—if you pick up your phone, the bubble pops, and you’ll need to start growing it again. It's a playful way to keep your attention where it belongs! 🎈
+**Focus Bubble** is a productivity app that helps you stay focused and beat distractions. Set a timer, and watch your bubble grow as you stay on task. But be careful—if you pick up your phone, the bubble pops, and you’ll need to start growing it again. It's a playful way to keep your attention where it belongs!
 
 ---
 
